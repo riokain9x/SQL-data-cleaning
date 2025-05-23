@@ -36,8 +36,38 @@ CREATE TABLE "club_member_info_clean" (
 	membership_date VARCHAR(50)
 );
 ```
-#### Copy all values from ỏiginal table
+#### Copy all values from original table
 ```sql
 INSERT INTO club_member_info_clean
 SELECT * FROM club_member_info;
 ```
+### Clean data and document it
+#### For example
+1. Inconsistent letter case
+2. Age out of realistic range
+3. Leading and trailing whitespaces
+4. Email is null
+
+```sql
+SELECT 
+  UPPER(TRIM(full_name)) AS full_name_cleaned,
+  CASE 
+    WHEN age < 0 OR age > 100 THEN NULL 
+    ELSE age 
+  END AS age_cleaned,
+  TRIM(email) AS email_cleaned
+FROM club_member_info_clean
+LIMIT 10;
+```
+|full_name_cleaned|age_cleaned|email_cleaned|
+|-----------------|-----------|-------------|
+|ADDIE LUSH|40|alush0@shutterfly.com|
+|ROCK CRADICK|46|rcradick1@newsvine.com|
+|SYDEL SHARVELL|46|ssharvell2@amazon.co.jp|
+|CONSTANTIN DE LA CRUZ|35|co3@bloglines.com|
+|GAYLOR REDHOLE|38|gredhole4@japanpost.jp|
+|WANDA DEL MAR|44|wkunzel5@slideshare.net|
+|JOANN KENEALY|41|jkenealy6@bloomberg.com|
+|JOETE CUDIFF|51|jcudiff7@ycombinator.com|
+|MENDIE ALEXANDRESCU|46|malexandrescu8@state.gov|
+|FEY KLOSS|52|fkloss9@godaddy.com|
